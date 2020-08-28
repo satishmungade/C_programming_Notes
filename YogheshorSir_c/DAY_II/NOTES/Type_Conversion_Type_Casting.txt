@@ -1,0 +1,252 @@
+Syntax of assignment statement 
+
+<LHS Expression> = <RHS Expression> 
+
+Execution: 
+	[1] RHS expression is evaluated first, value wise 
+	[2] Depending on the types of literal constants and variables 
+		and operators that are used in an expression, TYPEWISE EVALUATION OF 
+		RHS is DONE 
+
+	[3] LHS Expression is evaluated. LHS EXPRESSION EVALUATION MUST BE SOMETHING
+		WHERE THE VALUE OF RHS CAN BE STORED. IF IT IS NOT THE CASE THEN COMPILER 
+		EMITS AN ERROR 'LVALUE MISSING'
+
+	[4] After ascertaining that LHS expression evaluates into an 'Lvalue', the type 
+		of 'Lvalue' is inferred. (i.e. TYPEWISE EVALUATION of 'Lvalue' expession is done)
+
+	[5] If TYPE(RHS) = TYPE(LHS) then the statements passes the type checking phase with success. 
+
+	[6] If not then an attempt is made to CONVERT RHS OBJECT INTO LHS TYPE. 
+		Some of those type conversions are trivial and do not change the logic of program 
+		and therefore, are considered to be legal conversions. And compiler will not even emit 
+		warning while performing legal conversions, for the very same reason, ---> 
+		THEY ARE LEGAL :P :P :P. 
+
+	[7] Some type conversions are performed by the compiler result into undesirable conditions 
+		like data loss etc. Compiler performs those conversions but emits the warning. 
+
+	[8] Even while taking risk of some adverse effects, some conversions CANNOT SIMPLY BE MADE 
+		LEGAL / VALID. In that case compiler EMITS a WARNING but this is a dangerous to say the 
+		least. 
+
+#------------------------------------------------------------------------------------------------------
+
+int a=10, b=20, c; 
+
+int main(){
+	c = a + b; 
+}
+
+RHS -> a + b 
+
+a : int 
+b : int 
+a + b :  ? --> Type Inference --> int 
+
+TYPE(RHS(a+b)) = int 
+
+LHS -> c -> variable 
+'lvalue'
+
+#--------------------------------------------------------------------------------
+int a[10]; 
+
+int* p = a; // p = &a[0]; 
+int i = 3; 
+
+p+i = 2000; // lvalue missing 
+
+
+&A[i] = 2000; 
+
+A[i] = 2000; 
+
+p + i == &A[i]
+
+&A[i] = 2000; // &A[i] IS NOT AN LVALUE 
+
+A[i] = 2000; // A[i] is an LVALUE
+
+A[i] == *(&A[i]) == *(p+i)
+
+*(p+i) = 2000; // *(p+i) is a valid lvalue 
+
+#--------------------------------------------------------------------------------
+
+
+TYPE(c)=int 
+
+TYPE(RHS(a+b)) == TYPE(LHS(c)) // TYPE CHECKING SUCCESS 
+
+# c = a + b; 
+"""
+movl	a, %eax
+addl	b, %eax
+movl	%eax, c 
+""" 
+
+#--------------------------------------------------------------------------------
+Example: 
+	
+	char c = 'Z'; 
+	int n; 
+
+	n = c; 
+
+RHS -> c 
+TYPE(c) : char 
+TYPE(RHS(c)) = char 
+
+LHS -> n 
+TYPE(n) : int
+TYPE(LHS(n)) -> int 
+
+TYPE(RHS(c)) != TYPE(LHS(n))
+
+Compiler will try to treat c is an integer and interpret assignment statement 
+This attempt is known as TYPE CONVERSION. 
+
+What TYPE CONVERSION IS NOT 
+[1] converting object of type T1 into T2 DOES NOT CHANGE SIZE OR LAYOUT OF OBJECT 
+	object of T1 which is sizeof(T1) bytes long, having some internal layout 
+	WILL NOT MAGICALLY CHANGE into an object which is sizeof(T2) bytes long sharing 
+	the layout described in T2. 
+
+TYPE CONVERSION? 
+
+You TREAT OBJECT OF TYPE T1 as if it were T2. 
+What changes if you treat an object of type T1 as if it were that of T2. 
+
+MEANING OF OPERATIONS THAT ARE PERFORMED T1 ARE INTREPRETED IN THE CONTEXT OF T2
+BUT ARE APPLIED ON T1 
+
+#---------------------------------------------------------------------------------------------
+
+----------------------
+UPPER SLAB 
+---------------------- 
+YOUR SLAB 	(I)	p 			p.pay_tax(); 	// pay_tax will be interpreted in the context of P (I)	
+---------------------
+LOWER SLAB 	
+
+							((UPPER_SLAB)p).pay_tax() 	// tax calculuation will be perofrmed considering 
+														// he is tata or Ambani 
+
+
+							((LOWER_SLAB)p).pay_tax(); 
+
+							((Gokhale sir)p).do_study() --> 20  hours 
+#------------------------------------------------------------------------------------------------
+char c = 'A'; 
+n = c; 
+
+1 ---> 4 
+
+movb 	c, %al # 65 
+movzx 	%al, %edx # 65 --> 4 
+movl	%edx, n # 65
+
+
+#----------------------
+char->short -> ushort
+char->int -> uint	-> float -> double
+char->long -> uint -> float -> double
+char->long long -> u long long -> double 
+
+short->int -> uint -> float -> double
+short->long  -> ulong -> double 
+short->long long -> ulong long -> double 
+
+int -> long -> ulong -> double 
+int -> long long -> ulong long -> double 
+
+long -> long long -> ulong long -> double 
+
+char -> short(u) -> int(u) -> long(u) ->long long(u)
+					|			|			|
+					| 			|__________ |________________
+					|________________________________________|_> float -> double 
+
+
+
+float f = 3.14; 
+int n; 
+
+n = f; /* data loss */ 
+
+double d; 
+
+f = d; 
+
+long long int x; 
+double d; 
+
+x = d; /* data loss */ 
+
+#------------------------------------------------------------------------------------------
+
+struct A{
+	int a; 
+	char b; 
+	float c; 
+}; 
+
+struct A inA; 
+
+struct B{
+	char a[10]; 
+	int k; 
+};
+
+int main(){
+	struct B* pB = &inA; /* compile time warning */ 
+} 
+
+
+type(rhs) = struct A* 
+type(lhs) = struct B* 
+
+#-----------------------------------------------------------------------------------
+
+Explicit Type Casting 
+
+rhs -> Ti 
+
+Whenever RHS appears in any statement, it's type is inferred by compiler. Call it as Ti 
+
+Implicit type conversion syntax ALLOWS you TO OVERRIDE the inferred type by following syntax 
+
+lhs = rhs; 
+Let the inferred type of rhs be Ti. 
+If you want compiler to consider type of rhs to be Tc instead of Ti then 
+
+(Tc)rhs is the way to do it. 
+
+Value computed by rhs WILL BE OF TYPE Ti. The type of value will TREATED as Tc for the sake 
+of interpreting operators that are applied on rhs value. 
+
+
+(Tc)rhs THEN IT DOES NOT HAVE ANY CONSEQUENCE 
+
+OPERATOR((Tc)rhs)
+
+Then Meaning of Operator Will be Evaluated in the Context of Tc but Eventually That Meaning 
+Will be Applied on Value/Instance/Object of Type Ti Yielding Extra-Ordinary (Out of Ordinary)
+Behaviour. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

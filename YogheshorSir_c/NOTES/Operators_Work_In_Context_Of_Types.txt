@@ -1,0 +1,430 @@
+Fundamental 
+CPA Principle: 
+The meaning of operator is always decided in the context of types of their operands. 
+
+c = a + b; 
+
+a, b, c --> Operands 
+=, + --> Operators. 
+
+Operators such as +, = DO NOT HAVE A UNIQUE MEANING. 
+They have different meanings. 
+Which meaning to use now, is decided based on TYPES OF a, b, c
+
+int a = 10, b = 20, c; 
+
+int main(){
+	c = a + b; 
+}
+
+R1 <- a 			(mov)
+R2 <- b 			(mov)
+R1 <- R1 + R2 		(add)
+c  <- R1			(mov)
+
+Lets change a program little bit. 
+
+float a = 3.14, b = 6.28, c; 
+
+int main(){
+	c = a + b; 
+}
+
+fR1 <- a 			(fld)
+fR2 <- b 			(fld)
+fR1 <- fR1 + fR2 	(fadd)
+c   <- fR1 			(fst)
+
+#---------------------------------------------------------
+
+DATA ACCESS OPERATORS: 
+
+[1] DEREFERENCE (*)
+[2] SUBSCRIPT[]
+[3] DOT OPERATOR (.)
+[4] ARROW OPERATOR (->)
+[5] ADDITION AND SUBTRACTION OPERATORS WITH FOLLOWING 
+	COMBO 
+	POINTER + INTEGER 
+	POINTER - INTEGER 
+#----------------------------------------------------------
+[1] DEREFERENCE OPERATOR: 
+	
+	int n = 10;  
+	short s = 5; 
+	char c = 'A'; 
+
+	int nc; 
+	short sc; 
+	char cc; 
+
+	int* pi; 
+	short* ps; 
+	char* pc; 
+
+	int main(){
+		pi = &n; 	/* put address of n in pi */ 
+		ps = &s; 	/* put address of s in ps */ 
+		pc = &c; 	/* put address of c in pc */ 
+
+		*pi = 100; 
+		*ps = 50; 
+		*pc = 'Z'; 
+
+		nc = *pi; 
+		sc = *ps; 
+		cc = *pc; 
+
+		return 0; 
+
+	}	
+
+
+[1] Dereference operator works only on pointer variable. 
+	If you try to dereference a variable which is NOT pointer 
+	then you will get a compile time error. 
+
+[2] Dereference operator does the following: 
+	(A) It pulls out the content inside it's operand pointer.
+	(B) Treat that content as an address into program's address space. 
+	(C) Perform read or write operation on it. 
+
+[3] How CPA principle works in the context of type. 
+	In above program, 
+	assume address in pi(&n) -> 1000 
+		   address in ps(&s) -> 2000 
+		   address in pc(&c) -> 3000 
+	(In real, address of n, s & c would be contiguous subjected to alignment 
+	performed by compiler)
+
+	*pi --> Take out the content in pi. 1000. 
+		--> Decide whether to perform read or write on it. 
+			( lhs = *pi then read 
+			 *pi  = rhs then write)
+
+	(TYPE CONTEXT : HOW MANY BYTES TO READ FROM OR WRITE TO STARTING FROM ADDRESS IN POINTER 
+					IS DECIDED ON THE BASIS OF POINTER TYPE)
+
+	*pi = 100; 
+
+	1. Take out content in pi. ---> 1000 
+	2. Treat it as a memory address in program : M[1000] 
+	3. Decide read or write. (*pi = rhs therefore, write)
+	4. How many bytes to write from M[1000]?? Depends on the type of pointer 
+	5. What is type of pointer? int. What is size of integer? --> 4 
+	6. *pi = 100; means 
+		M[1000:1003] <- 100 
+
+	[EXERCISE: DO THE SAME LEVEL OF DETALING FOR *ps = 50; *pc = 'Z';]
+
+	sc = *ps; 
+	We've already assumged address in ps as 2000. Let us assume the address 
+	of sc as 5000. 
+
+	sc = *ps; 
+	1. Take out content in ps ---> 2000 
+	2. Treat it as memory address in program ---> M[2000]
+	3. Decide read or write (lhs = *ps; therefore, read operation)
+	4. How many bytes to read from M[2000]? Depends on type of pointer. 
+	5. What is type of pointer? short. What is size of short? --> 2 
+	6. sc = *ps; 
+	   M[5000:5001] <- M[2000:2001]
+
+	[Exercise : DO THE SAME LEVEL OF DETAILING FOR nc = *pi; cc = *pc;]
+
+#---------------------------------------------------------------------------------------------
+[2] Subscript operator in the context of type. 
+	
+	int ia[5] = {100, 200, 300, 400, 500}; 
+	short sa[5] = {10, 20, 30, 40, 50}; 
+
+	assume base address of ia to be 1000 
+	assume base address of sa to be 2000. 
+
+ia:	1000:[100	]
+	1004:[200	]
+	1008:[300	]
+	1012:[400	]
+	1016:[500	]
+
+sa:	2000:[10	]
+	2002:[20	]
+	2004:[30	]
+	2006:[40	]
+	2008:[50	]
+
+Syntax of subscript operator. It requires two operands. 
+one on left should be of array type and one in brackets 
+should be of integer type. 
+
+ia[i]; 	/* syntax is satisfied */ 
+sa[i]; 	/* syntax is satisfied */ 
+
+Moreover, ia[i] & sa[i] can appear on lhs or on rhs i.e. 
+
+int n, nc; 
+short s, sc; 
+
+ia[i] = n; 	/* ia[i] = rhs; 	W */ 
+nc = ia[i]; /* lhs = ia[i]; 	R */ 
+
+sa[i] = s; 	/* sa[i] = rhs;  	W */ 
+sc = sa[i]; /*  lhs = sa[i];	R */
+
+Analysis: ia[i] = n; 
+address of ia is assumed to be M[1000]. 
+assume i = 2, 
+assume address of n to be M[5000]. (content in n M[5000:5003] is 3000)
+
+1. How to calculate target address referred by ia[i]	
+   Take address of ia. M[1000] and apply '[i]' operator on it. 
+
+2. How to apply [i] ON ia. (TYPE CONTEXT)
+	ia + i * sizeof(typeof(array element))
+			== 
+	M[1000] + 2 * sizeof(int)
+			==
+	M[1000] + 2 * 4 
+			== 
+	M[1000] + 8 
+			==
+	M[1008] <-- TARGET ADDRESS IN PROGRAM 
+
+3. Decide whether to read from it or write to it. 
+	{ia[i] = rhs; Therefore, write operation}
+ 	How many bytes to write to M[1008]. 
+ 	(TYPE CONTEXT)
+ 	as many bytes as sizeof(typeof(array element))
+ 								==
+ 							sizeof(int)
+ 								== 
+ 								4 
+
+4. ia[i] = n; 
+	M[1008:1011] <- M[5000:5003]
+	M[1008:1011] <- 3000 
+
+5. Modified state of ia
+
+ia:	1000:[100	]
+	1004:[200	]
+	1008:[3000	]
+	1012:[400	]
+	1016:[500	]
+
+Analysis of nc = ia[i]; 
+address of ia is assumed to be M[1000]. 
+assume i = 2, 
+assume address of n to be M[6000]. (content in n M[6000:6003] is 0)
+
+1. How to calculate target address referred by ia[i]	
+   Take address of ia. M[1000] and apply '[i]' operator on it. 
+
+2. How to apply [i] ON ia. (TYPE CONTEXT)
+	ia + i * sizeof(typeof(array element))
+			== 
+	M[1000] + 2 * sizeof(int)
+			==
+	M[1000] + 2 * 4 
+			== 
+	M[1000] + 8 
+			==
+	M[1008] <-- TARGET ADDRESS IN PROGRAM 
+
+3.  Decide whether to read from it or write to it. 
+	{nc = ia[i] --> lhs = ia[i]; READ OPERATION}
+ 	How many bytes to read from M[1008]? 
+ 	(TYPE CONTEXT)
+ 	as many bytes as sizeof(typeof(array element))
+ 								==
+ 							sizeof(int)
+ 								== 
+ 								4 
+ 	Read from M[1008:1011]. 
+
+ 4. nc = ia[i]; 
+ 	M[6000:6003] <- M[1008:1011]
+ 	M[6000:6003] <- 3000
+
+ 5. Before assignment : M[6000:6003] was 0 
+ 	After assignment : M[6000:6003] i.e. (nc) is 3000. 
+ 	nc [0	]
+ 	nc [3000]
+ 	state of ia DOES NOT CHANGE 
+ 	BEFORE AND AFTER ASSIGNMENT, THE STATE OF ARRAY DOES NOT CHANGE
+ 	ia:	1000:[100	]
+		1004:[200	]
+		1008:[3000	]
+		1012:[400	]
+		1016:[500	]
+
+[EXERCISE : SAME LEVEL OF DETAILING FOR sa[i] = s; sc = sa[i]]
+
+#-------------------------------------------------------------------------------------
+
+[3] Dot operator in the context of type. 
+	
+	Syntax of DOT operator: 
+	X.Y where X has to be structure/(union) type and Y should be a name of 
+	member withiin structure type of X. 
+
+	Concrete Example: 
+	
+	/* structure definition : layout definition */ 
+	struct A{
+		int a; 
+		char b; 
+		float c; 
+	}; 
+
+	/* How create structure instance? */ 
+	struct A inA; 
+
+	int nc; 	/* copy of integer : M[6000:6003] */ 
+	char cc; 	/* copy of character */ 
+	float fc; 	/* copy of float */ 
+
+	int main(){
+		inA.a = 100;	/* ANALYSIS : EXERCISE */  
+		inA.b = 'A'; 	/* ANALYSIS : EXERCISE */ 
+		inA.c = 3.14f;	/* Analaysis - me */ 
+
+		nc = inA.a; 	/* ANALYSIS : EXERCISE */ 
+		cc = inA.b; 	/* ANALYSIS : EXERCISE */ 
+		fc = inA.c;		/* ANALYSIS : EXERCISE */ 
+	}
+
+	/* Interpretation of a member of a structure */ 
+
+	Definition : Offset : Offset (of some entity) is defined as 
+	a distance from an arbitrarily chosen fixed point. 
+
+	Definition : Offset of a member in struture : 
+	Offset of a particular member of a structure is distance in bytes 
+	of an address of the member in ANY structure instance from the 
+	base address of the instance. 
+
+	Applying this definition 
+	OFFSET_OF(a, struct A) --> 0 
+	OFFSET_OF(b, struct A) --> 4 
+	OFFSET_OF(c, struct A) --> 8 
+
+	Analysis of inA.c = 3.14f; 
+
+	1. Assume base address of inA to be M[10000]. Calculate target address 
+	   depicted by inA.c 
+
+	   TARGET ADDRESS of inA.c 
+	   		== 
+	   	Base address of (inA) + OFFSET_OF(c, struct A) 	{TYPE CONTEXT}
+	   		== 
+	   	M[10000] + 8 
+	   		== 
+	   	M[10008]
+
+	 2. Decide whether to read from or write to 
+	 	(	
+	 		x.y = rhs; /* W */ 
+	 		lhs = x.y; /* R */ 
+	 	)
+
+	 	inA.a = 3.14f; /* W */ 
+
+	 3. How many bytes to write? 
+	 	{TYPE CONTEXT}
+	 	as many bytes as type of member c in struct A 
+	 	== 
+	 	sizeof(float) 
+	 	== 
+	 	4 
+
+	 	Write on M[10008 : 10011] 
+
+	 4. inA.c = 3.14f; 
+	 	M[10008 : 10011] <-- 3.14f 
+
+	 5. Before assignment 
+	 	inA: [0 				] : a
+	 		 ['\0'	][PADDING	] : b 
+	 		 [0.0 				] : c 
+	 	After assignment: 
+	 	inA: [0 				] : a
+	 		 ['\0'	][PADDING	] : b 
+	 		 [3.14f 			] : c 
+
+[ 
+EXERCISE : 
+			Analysis of 
+			fc = inA.c; 
+			inA.a = 100; 
+			nc = inA.a; 
+			inA.b = 'A'; 
+			cc = inA.b; 
+]
+
+#----------------------------------------------------------------------------
+[4] Arrow operator in the context of type. 
+	struct A{
+		int a; 
+		char b; 
+		float c; 
+	}; 
+
+	struct A inA; 
+	struct A* pA; 
+
+	int nc; 
+	char cc; 
+	float fc; 
+
+	int main(){
+		pA->a = 100; 		/* ANALYSIS : EXERCISE */ 
+		pA->b = 'A'; 		/* ANALYSIS : EXERCISE */ 
+		pA->c = 3.14f; 		/* ANALYSIS : EXERCISE */ 
+
+		nc = pA->a; 		/* ANALYSIS : EXERCISE */ 
+		cc = pA->b; 		/* ANALYSIS : EXERCISE */ 
+		fc = pA->c; 		/* ANALYSIS : EXERCISE */ 
+
+		return (0); 
+	}
+
+pA->c == (*pA).c
+
+(Take out address in pA).c 
+==
+(Address in pA = address of inA).c 
+==
+Base address of inA + OFFSET_OF(c, struct A)
+
+TARGET ADDRESS DEPICTED BY (pA->c) = ADDRESS in PA + OFFSET_OF(c, struct A)
+#------------------------------------------------------------------------------------
+[5] pointer + integer 
+	pointer - integer 
+	in the context of type. 
+
+	int* pi = (int*)10000; 
+	char* pc = (char*)20000; 
+	float* pf = (float*)30000; 
+	struct A* pA = (struct A*)40000; 
+
+	pi + 1 = ADDRESS IN (pi) + 1 * sizeof(pointer type) = M[10000] + 1 * sizeof(int) = M[10000] + 4 = 10004
+	pc + 1 = ADDRESS IN (pc) + 1 * sizeof(pointer type) = M[20000] + 1 * sizeof(char) = M[20000] + 1 = 20001
+	pf + 1 = ADDRESS IN (pf) + 1 * sizeof(pointer type) = M[30000] + 1 * sizeof(float) = M[30000] + 4 = 30004
+	pA + 1 = ADDRESS IN (pA) + 1 * sizeof(pointer type) = M[40000] + 1 * sizeof(struct A) = M[40000] + 12 = 40012
+
+	pi - 1 = ADDRESS IN (pi) - 1 * sizeof(pointer type) = M[10000] - 1 * sizeof(int) = M[10000] - 4 = 9996
+	pc - 1 = ADDRESS IN (pc) - 1 * sizeof(pointer type) = M[20000] - 1 * sizeof(char) = M[20000] - 1 = 19999
+	pf - 1 = ADDRESS IN (pf) - 1 * sizeof(pointer type) = M[30000] - 1 * sizeof(float) = M[30000] - 4 = 29996
+	pA - 1 = ADDRESS IN (pA) - 1 * sizeof(pointer type) = M[40000] - 1 * sizeof(struct A) = M[40000] - 12 = 39988
+
+	pi + k = ADDRESS IN (pi) + k * sizeof(pointer type) = M[10000] + k * sizeof(int) 
+	pc + k = ADDRESS IN (pc) + k * sizeof(pointer type) = M[20000] + k * sizeof(char) 
+	pf + k = ADDRESS IN (pf) + k * sizeof(pointer type) = M[30000] + k * sizeof(float) 
+	pA + k = ADDRESS IN (pA) + k * sizeof(pointer type) = M[40000] + k * sizeof(struct A) 	
+
+	pi - k = ADDRESS IN (pi) - k * sizeof(pointer type) = M[10000] - k * sizeof(int) 
+	pc - k = ADDRESS IN (pc) - k * sizeof(pointer type) = M[20000] - k * sizeof(char) 
+	pf - k = ADDRESS IN (pf) - k * sizeof(pointer type) = M[30000] - k * sizeof(float) 
+	pA - k = ADDRESS IN (pA) - k * sizeof(pointer type) = M[40000] - k * sizeof(struct A) 	
+#--------------------------------------------------------------------------------------------------------------------

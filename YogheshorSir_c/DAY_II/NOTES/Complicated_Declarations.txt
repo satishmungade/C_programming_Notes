@@ -1,0 +1,283 @@
+Fundamental Rules of C Declaration: 
+
+[1] One declaration -> one statement -> one variable name (multiple variables are 
+	permitted at some places, but if you are forced then a declaration can be 
+	written using single variable name)
+	e.g. 
+	void insertion_sort(int* a, int n); 
+	void insertion_sort(int*, int); 
+
+[2] C declaration cannot be read in strict left->right OR strict right->left fashion. 
+	How to read it? 
+	(i) 	Always start reading C declaration from the variable name 
+	(ii) 	Always look towards right first and then look towards left. 
+	(iii)	Operators on right will always take precedence over those on left unless 
+			overridden by round brackets. 
+
+[3] General way of C decl 
+	(i) 	start from variable name 
+	(ii)	right -> left 
+			right -> left 
+			right -> left 
+			.
+			.
+			.
+			left
+			You will always terminate at left. 
+	(iii)	right->left sequence can occasionally change to left -> right if bracket 
+			overriding is present 
+
+#---------------------------------------------------------------------------------------------
+
+EXAMPLES OF APPLICATION OF ABOVE RULE: 
+#---------------------------------------------------------------------------------------------
+int n; 
+
+start from var name 'n' 
+	n is 
+	look on right --> no right 
+	look on left  --> int 
+	terminate. 
+
+	n is an integer 
+#---------------------------------------------------------------------------------------------
+struct A inA; 
+	start from varaible name, 'inA' 
+	'inA is' 
+		look on right --> no right 
+		look on left --> struct A. 
+		you have terminated at first right -> left 
+
+	inA is a struct A. 
+#---------------------------------------------------------------------------------------------
+int *p; 
+	start from var name, 'p'
+	p is 
+		look in right --> no right 
+		look on left --> * 
+
+	'p is' 'pointer to' 
+		look on right --> no right 
+		look on left --> int 
+
+	'p is' 'pointer to' 'int'
+#---------------------------------------------------------------------------------------------
+int A[5]; 
+	start from var name, 'A'
+	'A is' 
+		look right --> [5]
+	'A is' 'array 5 of'						# case a) [N]--> array N of, case b) []--> array of 
+		look left --> int 
+
+	'A is' 'array 5 of' 'integers'
+#---------------------------------------------------------------------------------------------
+int my_add(int, int); 
+	start from variable name, 'my add'
+	'my_add is'
+		look on right--> (int, int)
+			'my_add is' 'function accepting int, int' 
+		look on left --> int 
+			'my_add is' 'function accepting int, int' 'returning int'
+
+	'my_add is' 'function accepting int, int' 'returning int'
+#---------------------------------------------------------------------------------------------
+struct A *pA; 
+	start from variable name, 'pA'
+	'pA is'
+		look on right --> no right
+		look on left --> * 
+	'pA is' 'pointer to'
+		look on right --> no right 
+		look on left --> struct A 
+	'pA is' 'pointer to' 'struct A'
+		look on right --> no right 
+		look on left --> no left 
+
+	'pA is' 'pointer to' 'struct A'
+#---------------------------------------------------------------------------------------------
+float *parr[10]; 
+	Start from variable name, 'parr'
+	'parr is'
+		look on right --> [10]
+	'parr is' 'array 10 of'
+		look on left --> *
+	'parr is' 'array 10 of' 'pointer to'
+		look on right --> no right 
+		look on left --> float
+	'parr is' 'array 10 of' 'pointer to' 'float'
+		look on right --> no right 
+		look on left --> no left 
+	final: 'parr is' 'array 10 of' 'pointer to' 'float'
+#---------------------------------------------------------------------------------------------
+float (*parr)[10]; 
+	start from variable name, 'parr'
+	'parr is'
+		[Ideally we should look on right but becasue of bracket
+		 first right left cycle is switched to left right cycle]
+		look on left --> * 
+	'parr is' 'pointer to' 
+		look on right --> [10]
+	'parr is' 'pointer to' 'array 10 of'
+		[SECOND CYCLE]
+		look on right --> no right 
+		look on left --> float 
+	'parr is' 'pointer to' 'array 10 of' 'float'
+		look on right --> nothing 
+		look on left --> nothing 
+
+	'parr is' 'pointer to' 'array 10 of' 'float'
+#---------------------------------------------------------------------------------------------
+int (*pfn)(int, int)
+	start from variable name, 'pfn'
+	'pfn is'
+	[The right -> left cycle is switched to left->right cycle because of bracket]
+		look on left -> *
+	'pfn is' 'pointer to'
+		look on right -> (int, int)
+	'pfn is' 'pointer to' 'function accepting int, it' 
+
+		look on right -> nothing 
+		look on left -> int 
+
+	'pfn is' 'pointer to' 'function accepting int, int' 'returning int'
+		look on right -> nothing 
+		look on left -> nothing 
+
+	final: 'pfn is' 'pointer to' 'function accepting int, int' 'returning int'
+#---------------------------------------------------------------------------------------------
+int **pp; 
+	start from variable name, 'pp'
+	'pp is'
+		look on right -> nothing 
+		look on left -> * 
+	'pp is' 'pointer to'
+		look on right -> nothing 
+		look on left -> * 
+	'pp is' 'pointer to' 'pointer to' 
+		look on right -> nothing 
+		look on left -> int 
+	'pp is' 'pointer to' 'pointer to' 'int'
+		look on right -> nothing 
+		look on left -> nothing 
+	final : 'pp is' 'pointer to' 'pointer to' 'int'
+#---------------------------------------------------------------------------------------------
+Example 
+		1. 	int (*p[4])(int, int); 
+			start from variable name, 'p'
+			'p is'
+				look on right -> [4]
+			'p is' 'array 4 of'
+				look on left -> * 
+			'p is' 'array 4 of' 'pointer to'
+				look on right -> (int, int)
+			'p is' 'array 4 of' 'pointer to' 'function accepting int, int'
+				look on left -> int
+			'p is' 'array 4 of' 'pointer to' 'function accepting int, int' 'returning int'
+				look on right -> nothing 
+				look on left -> nothing 
+			final : 'p is' 'array 4 of' 'pointer to' 'function accepting int, int' 'returning int'
+		
+		2. 	int (*f(int, int))(int); 
+			start from variable name, 'f'
+			'f is'
+				look on right -> (int, int)
+			'f is' 'function accepting int, int'
+				look on left -> * 
+			'f is' 'function accepting int, int' 'returning pointer to'
+				look on right -> (int)
+			'f is' 'function accepting int, int' 'returning pointer to' 'function accepting int'
+				look on left -> int
+			'f is' 'function accepting int, int' 'returning pointer to' 'function accepting int' 'returning int'
+				look on right -> nothing 
+				look on left -> nothing 
+			final: 'f is' 'function accepting int, int' 'returning pointer to' 'function accepting int' 'returning int'
+
+K & R EXAMPLES 
+
+[1] char **argv
+	start from variable name: 'argv'
+		'argv is'
+		look on right -> nothing 
+		look on left -> * 
+	'argv is' 'pointer to'
+		look on right -> nothing 
+		look on left -> * 
+	'argv is' 'pointer to' 'pointer to'
+		look on right -> nothing 
+		look on left -> char 
+	'argv is' 'poiner to' 'pointer to' 'char'
+		look on right : nothing 
+		look on left : nothing 
+	final: 'argv is' 'poiner to' 'pointer to' 'char'
+
+[2] int(*daytab)[13]
+	'daytab is' 'pointer to' 'array 13 of'  'integers'
+
+
+[3] int* daytab[13]
+	'daytab is' 'array 13 of' 'pointer to' 'integers'
+
+[4] void* comp()
+	'comp is' 'function accepting void' 'returning pointer to' 'void'
+
+[5] void(*comp)()
+	'comp is' 'pointer to' 'function accepting void' 'returning void'
+
+[6] char(*(*x())[])()
+	'x is' 'a function accepting nothing' 'returning pointer to' 'array of' 'pointer to' 'function accepting nothing'
+	'returning char'
+
+[7] char(*(*x[3])())[5]
+	start from variable name : 'x'	
+	'x is' 																char(*(*		x		[3])())[5]
+		look right -> [3]
+	'x is array 3 of'													char(*(*		x[3])		())[5]
+		look left -> * 
+	'x is' 'array 3 of' 'pointer to'									char(*		(*x[3])		())[5]
+		look on right -> ()
+	'x is' 'array 3 of' 'pointer to' 'function accepting nothing'		char(* 		(*x[3])()	)[5]
+		look on left -> * 
+	'x is' 'array 3 of' 'pointer to' 'function accepting nothing' 		char(       * (*x[3])()		)[5]
+	'returning pointer to'
+		look on right -> [] 
+	'x is' 'array 3 of' 'pointer to' 'function accepting nothing'		char(       *(*x[3])())[5]
+	'returning pointer to' 'array five of' 
+		look on left -> char
+	'x is' 'array 3 of' 'pointer to' 'function accepting nothing'		char(*(*x[3])())[5]
+	'returning pointer to' 'array five of' 'char'
+		look on right -> nothing 
+		look on left -> nothing 
+
+	final: x is array 3 of pointers to function accepting nothing 
+		   returning pointer to array 5 of char.  
+
+[EXERCISE : DRAW MEMORY BLOCK DIAGRAMS OF EACH DATA DEFINITION STATEMENT THAT HAS BEEN WRITTEN ABOVE]
+
+void (*f(int, int(*)(void)))(void); 
+	
+void (*signal(int, void(*)(int)))(int)
+
+
+int pthread_create(pthread_t*, pthread_attr_t*, void*(*)(void*), void*); 
+	pthread_create is a function accepting 
+		FP1 : pointer to pthread_t 
+		FP2 : pointer to pthread_attr_t 
+		FP3 : pointer to a function accepting pointer to void returning pointer to void
+		FP4 : pointer to void
+	retruns integer 
+
+
+int scandir(const char*, struct dirent***, int(*)(struct dirent*), 
+			int(*)(struct dirent**, struct dirent**)); 
+
+	scandir is a function accepting 
+		FP1: pointer to const char
+		FP2: pointer to pointer to pointer to struct dirent 
+		FP3: pointer to a function accepting pointer to struct dirent and returning int 
+		FP4: pointer to a function accepting 
+										FP1: pointer to pointer to struct dirent, 
+										FP2: pointer to pointer to struct dirent 
+										returning int 
+	returning int 
+
+char 	(	*	(	*	[3]	)	()	)	[5]

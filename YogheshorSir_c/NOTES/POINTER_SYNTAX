@@ -1,0 +1,359 @@
+[1] Built in data type 
+
+unsigned char 
+unsigned short int 
+unsigned int 
+unsigned long int 
+unsigned long long int 
+
+short 
+int 
+long int 
+long long int 
+
+char 
+
+float 
+double 
+long double 
+
+[2] Create an array of any built in type 
+
+[3] You can combine many built in types together to form to a structure 
+    One structure can be a member of the other 
+
+[4] You can create array of structures 
+
+#----------------------------------------------------------------------------
+
+int n; 
+
+int a[10]; 
+
+struct A{
+	int a; 
+	char b; 
+	float c; 
+}; 
+
+struct Date{
+	int dd, mm, yy; 
+}; 
+
+struct credit_card{
+	struct Date expiry_date; 
+	long long int cc_number; 
+	short cc_cvv; 
+};
+
+struct credit_card[5]; 
+
+#-------------------------------------------------------------------------------
+
+[1] Pointer to built in data type 
+	int *p; 
+	p is pointer to int. 
+	
+	GENERALIZED TREATMENT (IMP!!)
+	
+	Let T be any built in data type. 
+	[1] Object Creation 
+		T <variable name>; 
+	[2] Pointer Creation
+		T* pT; 
+	[3] Putting address of object inside pointer 
+		pT = &<variable_name>
+	[4] Use via indirection 
+		*pT = rhs; 
+		lhs = *pT; 
+	[5] Parameter passing 
+		void f(int* p); 	// function definition 
+		int n; 
+		f(&n); 				// function call 
+
+		int n; 
+		int* p; 
+
+		p = &n; 
+
+		lhs = *p; 
+		*p = lhs; 
+
+		void f(int* p){
+
+		}
+
+		f(&n); 
+
+	
+	# EXAMPLES 
+	int n; 
+	int* p; 
+	p = &n; 
+
+	
+
+	char c; 
+	short s; 
+	int n; 
+	long l; 
+	long long ll; 
+	float f; 
+	double d; 
+
+	char* pc; 
+	short* ps; 
+	int* pi; 
+	long* li; 
+	long long* lli; 
+
+[2] Pointer to structure 
+	
+	[1] Object creation 
+		struct A{
+			int a; 
+			char b; 
+			float c; 
+		}; 
+
+	[2]	Object Creation 
+		struct A inA; 
+
+	[3] Putting address of object in pointer 
+		struct A* p = &inA; 
+
+	[4] How to control instance of structure via it's pointer 
+		p->a = rhs; 
+		p->b = rhs; 
+		p->c = rhs; 
+
+		lhs = p->a; 
+		lhs = p->b; 
+		lhs = p->c; 
+
+	[5] 
+		void f(struct A* p); 
+
+		int main(){
+			struct A inA; 
+			f(&inA); 
+		}
+
+		void f(struct A* p){
+			p->a; // LHS OR RHS 
+			p->b;
+			p->c; 
+		}
+
+[3] Pointer to array 
+	
+	Declare an array of five integer pointers. 
+
+	You should declare an array. 
+	whose dimension is 5. 
+	Type each one of those five elements in int*. 
+
+	Select name: Say A. 
+	A is array 
+
+	A[]
+
+	A is array 5. 
+
+	A[5]
+
+	A is array 5 of pointer 
+
+	*A[5]
+
+	A is array 5 of pointer to int. 
+
+	int *A[5]; 
+	
+
+	int main(){
+		int i; 
+		for(i = 0; i < 5; ++i)
+			A[i] = malloc(sizeof(int)); 
+	}
+
+	Declare a pointer to array five of integers. 
+	int A[5]; 
+	All the elements in A are integers. 
+	I want to declare a pointer variable which can hold base address of array A. 
+
+	int (*p)[5]; 	// TECHNICALLY ANSWER
+
+	int *p = A; 	// practice, WHY DO YOU NEED THIS? 
+
+
+	int n; 
+
+	<int> --> TYPE ANNOTATION. 
+
+	Built in data type 
+	Structure 
+
+	int n; 
+	float f; 
+	char c; 
+	short s; 
+
+	struct date d; 
+	struct credit_card c; 
+
+	struct node n; 
+
+	T *p; 
+
+	  int* p; 
+	  struct A* pA;
+
+	  int A[5]; 
+
+	  A is 
+	  		--> LOOK RIGHT []
+	  				--> A is an array (A[])
+	  					--> Look for the dimension-->5 (A[5])
+	  						A is an array 5 of 
+	  						--> look type on right --> NOT PRESENT 
+	  							--> look type on left --> present 
+	  									int A[5]; 
+Always start reading C declaration from variable name 
+	RIGHT->LEFT
+	RIGHT->LEFT
+	RIGHT->LEFT
+	RIGHT->LEFT
+	RIGHT->LEFT
+	.
+	.
+	.
+	RIGHT->LEFT ... AND YOU ALWAYS END ONF LEFT 
+
+	int A[5]; 
+
+	void signal_handler(int sig_num); 
+
+	signal_handler is a function 
+		accepting int 
+		returning void. 
+
+		A -> int [5]
+		signal_handler  void (int)
+
+		int [5] A; 		/* WRONG */ 
+		void (int) f; 	/* WRONG */ 
+
+		int A[5]; 		/* CORRECT */ 
+		void f(int); 	/* CORRECT */ 
+
+		int n; 
+		int A[5]; 
+		int [5]; 
+
+
+	Declare a pointer to array five of integer .
+	
+	int A[5]; 
+
+	Rule 1: One declaration --> One variable name --> One statement 
+	
+	p
+
+	Choose a variable name. 
+	Decide what is it's primary type? 
+	(Built in data object, structure objet, 
+	array, function pointer)
+
+
+	int *v 		v is a pointer 
+
+	float v[5] 	v is an array 
+
+	int v(int, int)  	v is a function 
+
+	Choose variable name p 
+		p is a pointer to 
+						*p
+			p is a pointer to array 
+						*p[]
+				p is a pointer to array 5 
+						*p[5]
+					p is a pointer to array 5 of int 
+						int *p[5]; 
+
+
+
+
+			*v
+
+			v[]
+
+			v()
+
+			*v[]
+
+			*	v[] ---> v is array of pointer to .....
+
+			*v 	  [] ---> v is pointer to array of ......
+
+		int	v; 
+		struct A v; 
+
+		Incomplete 
+		*v 
+
+		v[]
+
+		v()  
+
+		 int *v; 
+		 struct A *v;
+
+		 int *v[5]	--> int* 	v[5] ---> v is array 5 of 		pointer to int
+		 int *v  [5] --> 	v is pointer to array of int 
+
+		 a + b * c 
+
+		 a plus b 	and then multiply c to the addition 
+
+		 OR 
+
+		 add a to the multiplication of b & c. 
+
+		 a + b * c 	b---> vyatha ---> 
+		 					Predicament 
+
+		 (a + b) * c 
+
+
+		 *v[]
+
+		 int *A[5] --> A is (look right) array 5 of (look right - nothing) --> look left --> * pointer to 
+		 --> (look right nothing) --> look left --> int 
+
+		  A is an array 5 of pointer to int. 
+
+		  int (*p)[5]; 
+
+		  p is (because there is a bracket encapsuling p and left hand side *, usual right first , left later 
+		  is overridden) 
+
+		  p is pointer to --> look right [5] --> p is pointer to array 5 of --> look right --> nothing ---> look left 
+		  int 
+
+		  p is pointer to array 5 of int. 
+
+
+
+		  int *A[5]; 
+		  [int*		][int*		][int*		][int*		][int*	]
+
+
+		  p [			]
+
+		  
+
+
+
+

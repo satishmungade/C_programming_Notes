@@ -1,0 +1,123 @@
+coreprogrammingacademy@gmail.com 
+
+Assembly Programming Language: 
+	Linux : 
+		Professional Assembly Language - Richard Blum 
+		Modern x86 assembly programming - Apress 
+	Windows : 
+		Assembly Programming for x86 computers - Kip Irvine (BEST BOOK)
+
+C Programming Language: 
+	Beginner 
+		Programming WITH C --> Gottfried 
+	Intermediate / Advanced : 
+		The C Programming Language - K & R Dennis Ritchie & Ken Thompson 
+		Understanding & Using C Pointers - Richard Rees (OReilly) --> (best for pointers)
+		C and C++ Compiling - Milan Stevanovic 
+		GCC User Guide 
+		Extension to C Language Family (gcc extensions of ANSI/ISO C)
+		GCC Complete Reference 
+		Expert C Programming - Deep C Secrets - Peter van den Linden 
+
+C++ Programming: 
+	Beginner: 
+		Essential C++ -> Stanley Lippman 
+		
+		C++ Programming : Principles & Paradigms (1st -> 98 C++, 2nd -> 2011/14 C++)
+		- Stroustrup (1100)
+
+		C++ primer (4th edition - 98, 5th - 2011)
+		3rd EDITION IS BEST (1100+)
+
+	Intermediate: 
+		The C++ Programming Language - Bjarne Stroustrup (3rd 98, 4th 2011, preview of 2014)
+
+	Advanced: 
+		C++ Tempalte : The Complete Guide (Jossuites) (1st -> 98, 2nd - 2017)
+		Standard Template Library (Jossuites) (1st -> 98, 2nd - 2017)
+		C++ 2017 (EXCLUSIVE) (JOSSUITES)
+		C++ MOVE SEMANTIC (JOSSUITES) 
+
+		Effective C++ (98 )
+		More Effective C++ (98 )
+		(Modern Effective C++ - 2011/14) 
+
+		C++ Template MetaProgramming (GOD LEVEL)
+
+	Very Advanced: 
+		Inside C++ Object Model -> Stanley Lippman 
+		The Design & Evolution of C++ -> Bjarne Stroustrup 
+
+	Zen Level: 
+		Object Oriented C -> Alex Tobius Schreiner 
+
+#------------------------------------------------------------------------------------------------------------
+
+system programming 
+	Linux 
+		System: 
+			Advanced programming under Unix Environment Stevens & Rago 3rd 
+			GOD!!! --> The Linux Programming Interface -> Miachel Kerrisk 
+		Kernel Programming : 
+			The Linux Kernel Module Programming Guide - 3rd -> Peter Salzman
+			The Linux Device Drivers -> Rubini 
+			Essentual Linux Device Drivers 
+
+	Windows: 
+		System -> 
+			Programming Applications in MS windows - Richter 
+			Programming Windows -> Petzold 
+			Windows System Programming -> Hart -> 3rd edition 
+
+		Windows Kernel Programming: 
+			Windows Device Driver -> Viscarola & Mason 
+			Windows Device Driver -> Walter Oney 
+			Windows Device Driver -> Baker 
+
+Operating System: 
+	Generic: 
+		Modern Operating System -> Andrew Tanenbaum 
+		Operating System -> William Stalling 
+
+	OS Specific books 
+		Unix : 
+			The Design of Unix OS - bach 
+			Magic Garden Explained -> Coax & Goodhart 
+		Minix:
+			Design & Implementation of OS : The Minix book - Tanenbaum 
+		Linux: 
+			Linux Kernel Development - Robert Love 
+			Understanding The Linux Kernel -> Cessati & Bovet 
+			The Linux Kernel Architecture -> Jim Maurer 
+		Windows: 
+			Inside Windows NT --> Helen Custer 
+			Inside Windows NT --> David Soloman 
+			Inside Windows 2000 -> Soloman 
+			Windows Internals : 4th edition -> Soloman & Russinovitch 
+			5th, 6th, 7th, 8th 
+		Mac OS X 
+			Mac OS X internals -> Amit Singh 
+
+Data Structure and algorithms 
+
+[1] Algorithms in C Vol 1-4, 5 ---> Robert Sedgewick (Beginner + Intermediate + Adv) 
+[2] Data structure and Algorithms Through C++ -> Tamassia, Goodrich (Intermediate + Advanced) 
+[3] Introdiction to Algorithms by Cormen (Upper Intermediate + Advanced + Very Advanced) 
+[4] Fundamentals of Data Structures through C --> Sahani (Beginner) 
+[5] Algorithm Design Manual --> Skienna (Upper Intermediate + Advanced) 
+
+
+Linux -> ELF specification 
+Windows -> PE/COFF specification 
+Linkers & :Loaders by John Levine 
+Advance C/C++ Compiling 
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,196 @@
+	buffering 
+
+	tokenization 
+
+	lexical analysis 
+
+	parsing 			ABSTRACT SYNTAX TREE [SYNTAX CHECK]
+
+#----------------------------------
+
+	SEMANTIC CHECK ---> TYPE CHECKING 
+
+#-----------------------------------
+
+	CODE GENERATION 
+
+#-----------------------------------
+
+	Register allocation policy 
+	Data flow analysis 
+	Data optimization 
+	(loop unrolling --->)
+
+#----------------------------------------------------------------------------------------------------
+
+	.asm 
+
+Compilers : Principles, Techniques and Tools --> Aho, Ullman, Sethi 
+Theory of Computation --> Introduction to Theory of Computation --> John Martin 
+Discrete maths ---> Discrete mathematics & its application to computer science ---> Kenneth R Rosen 
+				---> Discrete & Combinatorial Mathematics --> GRIMALDI & RAMANA 
+
+#----------------------------------------------------------------------------------------------------- 
+
+c = a + b; 
+
+I am eating a mango --> SOURCE CODE ---> 		c = a + b 
+
+[I]	[am eating] [a mango] -->  SOURC CODE ---> 	[c] [=] [a] [+] [b]
+
+<SUBJECT> <VERB> <COMPILEMNT> 						<identifier> <operator> <identifier> <operator> <identifier> 
+
+<SUBJECT> <auxillary verb><verb> <article><noun>  
+
+<subject> <auxillary verb> <verb> <article> <noun> 
+
+#----------------------------------------------------------------------------------------------------------
+
+S + V + C is a valid statement 
+												PRODUCTION RULES : Context 
+<S> <aux><verb> <article><noun> 				expr -> expr op expr 
+												op -> + | - | * | / 
+		V 			<C> 						expr -> id 
+#-----------------------------------------------------------------------------------------------------------
+
+I mango am eating a 
+
+<Subject> <noun> <aux verb> <main verb> <article> 	= c + a b 
+													<op> <id> <op> <id> <id>
+
+
+c = a + b; 
+
+Right hand side is processed first. 
+
+VALUATION : EVALUATION : VALUEWISE EVALUATION 
+TYPEWISE EVALUATION 
+
+a : int 
+b : int 
+a + b : int 
+RHS : int 
+
+LHS : c 
+
+LHS(int) = RHS(int)
+
+int n; 
+int nc; 
+int *p; 
+
+main(){
+	p = &n; 
+	nc = *p; 
+}
+
+S1: 
+n : int 
+&n: int* 
+
+T(RHS) = int* 
+LHS: p
+T(LHS) = int* 
+
+S2: 
+
+RHS 
+
+p : int* 
+*p : int 
+
+T(RHS) : int 
+
+LHS : nc 
+TYPE(LHS) : int
+
+TYPE(RHS) = TYPE(LHS)
+
+
+int A[5]; 
+
+type of A = int [5]
+
+any expression of the form : A[i] ---> int 
+
+int *p; 
+
+Type of p : pointer to int 
+Type of *p : in t
+
+we have two expressions which are identical if evaluated valuewise 
+but differ if evaluated typewise 
+
+A 
+
+&A[0]
+
+Address of A = 10000 
+Address of (&A[0]) = 10000 
+
+Type of A = int [5]
+Type of (&A[0]) = int* 
+
+
+int n; 
+int m; 
+m = n; 
+
+	= A; 
+	= &A; 
+
+VE(A) = 10000 
+VE(&A) = 10000
+
+TE(A) == TE(&A[0]) .... This adjustment is integrated right into C compiler 
+VE(A) == VE(&A[0])
+
+
+ = A; 
+ = &A[0]; 
+
+
+ = &A; ....The adjustment works ONLY if you write A (not anything else)
+
+Classical TE(A) = int [5]
+TE(&A) = int(*)[5]; 
+
+VE(A) = VE(&A) = VE(&A[0]) = 10000;
+
+lhs = A; 
+
+VE(A) = 10000 
+TE(A) = TE(&A[0]) = int*
+
+lhs = &A; 
+VE(&A) = 10000 
+TE(&A) = TYPE OF A = int [5] = int(*)[5]
+
+
+
+a 
+
+	&a[0]
+
+lhs = a;	 	
+lhs = &a[0]; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

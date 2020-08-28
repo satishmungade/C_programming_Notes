@@ -1,0 +1,77 @@
+struct is for creating user define data types which can contain heterogeneous element heterogeneous mense having Diffrent Data types.
+in structure
+1.all member have three own extitance with respative size & memory. 
+
+
+// 4.we can not  inilitize member inside of structure or union bcoz te fakt declaration tyala memory  ch nhi mg tu kas ky lnitize karu sakto br
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<stdio.h>
+struct demo
+{
+     int iNo;
+     char chChar;
+     float fNo;
+     double dNo;
+}
+initilization list 
+obj={10,'A',10.1f,10.2}; this is structer kele ki initilization object kele kele ki
+
+struct demo obj1={20,'B',20.1f,20.5}; ajun ek object jale globaly pn as kd 
+
+int main()
+{
+   printf("%ld\n",sizeof(struct demo));
+   struct demo obj3;
+   // member initilization list this types only localy use we can't member initilization provide globaly becoz executable code we not write golbaly.
+   obj3.chChar='c';
+   obj3.iNo=30;
+   obj3.fNo=30.2f;
+   obj3.dNo=3002; 
+we can accesing member this using . 
+        printf("%d\n%d\n%d\n",obj.iNo,obj1.iNo,obj3.iNo);
+        printf("%c\n%c\n%c\n",obj.chChar,obj1.chChar,obj3.chChar); 
+        printf("%f\n%f\n%f\n",obj.fNo,obj1.fNo,obj3.fNo); 
+        printf("%f\n%f\n%f\n",obj.dNo,obj1.dNo,obj3.dNo); 
+} 
+*/
+
+#include<stdio.h>
+struct demo
+{
+     
+     int iNo;
+     float fNo;
+     char chChar;
+      double dNo; 
+    
+}obj;
+
+
+int main()
+{
+   printf("%ld",sizeof(struct demo)); size 24
+} 
+panding concept 
