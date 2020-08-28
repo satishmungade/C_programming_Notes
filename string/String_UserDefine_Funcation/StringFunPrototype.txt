@@ -1,0 +1,35 @@
+// String functions prototype
+
+1) int mystrlen(const char *);
+
+2) char * mystrcpy(char *,const char *);
+
+3)char * mystrncpy(char *,const char *,int);
+
+4)char * mystrcat( char *,const char *);
+
+5)char * mystrncat(char *,const char *,int );
+
+6)int mystrcmp(const char*,const char*);
+
+7)int mystrncmp(const char*,const char*,int);
+
+8)int mystrcmpi(const char*,const char*);
+
+9)int mystrncmpi(const char*,const char*,int);
+
+10)char * mystrrev(char *);
+
+11)char * mystrlwr(char *);
+
+12)char * mystrupr(char *);
+
+13)char * mystrset(char *,char);
+
+14)char * mystrnset(char *,char , int);
+
+15)char * mystrchr(const char *,char);
+
+16)char * mystrrchr(const char *,char);
+
+17)char * mystrstr(const char *,const char *);
